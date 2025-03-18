@@ -1,5 +1,8 @@
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Menu {
@@ -114,5 +117,30 @@ public class Menu {
 		
 		setSceltaDeposito(scelta);
 	}
-
+	
+	public static void fun(int x) {
+		x=5;
+	}
+	
+	public static void main(String args[]) throws FileNotFoundException {
+		Scanner input = new Scanner(new File("prova.txt"));
+		File nuovo = new File("nuovo.txt");
+		PrintWriter pw = new PrintWriter(nuovo);
+		int c=0;
+		String ciao = "suca";
+		while(c<10) {
+			pw.println(ciao);
+			
+			c++;
+			
+		}
+		
+		
+		input.close();
+		pw.close();
+	
+	
+	
+	
+	}
 }
