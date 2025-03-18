@@ -17,6 +17,14 @@ public class Utente {
 		
 	}
 	
+	public String getNome() {
+		return this.nome;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+	
 	public double getContoBancario() {
 		return this.contoBancario;
 	}
@@ -31,6 +39,14 @@ public class Utente {
 	
 	public int getMese() {
 		return this.mese;
+	}
+	
+	public void setNome(String n) {
+		this.nome=n;
+	}
+	
+	public void setPassword(String p) {
+		this.password=p;
 	}
 	
 	public void setContoBancario(double cB) {
