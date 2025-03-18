@@ -4,9 +4,12 @@ public class Utente {
 
 	private double contoBancario, portafoglio, guadagno;
 	private int mese;
+	private String nome, password;
 	
-	public Utente(double cB, double p, double g, int m) {
+	public Utente(String n, String pass,double cB, double p, double g, int m) {
 		
+		this.nome=n;
+		this.password=pass;
 		this.contoBancario=cB;
 		this.portafoglio=p;
 		this.guadagno=g;
@@ -46,7 +49,23 @@ public class Utente {
 		this.mese=m;
 	}
 	
-	
+	public int controllaDati(String password, String nome, String [] arrayPassword, String [] arrayNomi) {
+		
+		for(int i=0;i<arrayNomi.length;i++) {
+			
+			if(arrayNomi[i].equalsIgnoreCase(nome)) {
+				if(arrayPassword[i].equalsIgnoreCase(password)) {
+					return i;
+				}else {
+					return -1;
+				}
+			}
+			
+		}
+		
+		return -1;
+		
+	}
 	
 	
 	
