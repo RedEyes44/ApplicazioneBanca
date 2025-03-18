@@ -2,11 +2,14 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
+	
 
 	public static void main(String[] args) throws FileNotFoundException {
+		int nUtenti = 4;
 		Scanner tastiera = new Scanner(System.in);
 		
 		String nome[] = new String[4], password [] = new String[4];
@@ -34,7 +37,7 @@ public class Main {
 				  mese[c] = t.nextInt();
 				  
 				  }
-			  System.out.println("Nome: "+nome[c]+"\t Password: "+password[c]+"\t Conto bancario: "+ contoBancario[c] +"\t Portafoglio: "+ portafoglio[c] +"\t Guadagno: " + gain[c] +"\t Mese: " + mese[c]);
+			  //System.out.println("Nome: "+nome[c]+"\t Password: "+password[c]+"\t Conto bancario: "+ contoBancario[c] +"\t Portafoglio: "+ portafoglio[c] +"\t Guadagno: " + gain[c] +"\t Mese: " + mese[c]);
 			  c++;
 		}
 		
@@ -259,18 +262,31 @@ public class Main {
 		} while (m.getSceltaMain() != 7);
 		System.out.println("Grazie per aver usato questo programma!");
 		
-		File nuovo = new File("nuovo.txt");
-		PrintWriter pw = new PrintWriter(nuovo);
+		nome[pos]=u.getNome();
+		password[pos]=u.getPassword();
+		contoBancario[pos]=u.getContoBancario();
+		portafoglio[pos]=u.getPortafoglio();
+		gain[pos]=u.getGuadagno();
+		mese[pos]=u.getMese();
+		
+		//File nuovo = new File("nuovo.txt");
+		PrintWriter pw = new PrintWriter(new File("utenti.txt"));
 		c=0;
-		while(input.hasNextLine()) {
+		while(c<nUtenti) {
 			
 			pw.println(nome[c] + " " + password[c] + " " + contoBancario[c] + " " + portafoglio[c] + " " + gain[c] + " " + mese[c]);
-			
+			c++;
 		}
 		
-		fin = nuovo;
+		
+		
+		
+		
+		fin.delete();
+		
 		
 		input.close();
+		pw.close();
 
 	}
 
