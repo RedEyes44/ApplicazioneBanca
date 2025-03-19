@@ -13,4 +13,18 @@ public class Tools {
 		return s;
 	}
 	
+	public static String virgolaPunto(String s) {
+		String nuova = "";
+
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '.') {
+				nuova = nuova + ',';
+			} else {
+				nuova = nuova + s.charAt(i);
+			}
+		}
+
+		return nuova;
+	}
+	
 }
