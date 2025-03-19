@@ -6,47 +6,52 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
-	
 
 	public static void main(String[] args) throws FileNotFoundException {
-		int nUtenti = 4;
+		int DIM = 4;
+		
+		
 		Scanner tastiera = new Scanner(System.in);
-		
-		String nome[] = new String[4], password [] = new String[4];
-		double contoBancario[] = new double [4], portafoglio[] = new double [4], gain[] = new double [4];
-		int mese[] = new int [4];
-		
-		File fin=new File("utenti.txt");
+
+		String nome[] = new String[4], password[] = new String[4];
+		double contoBancario[] = new double[4], portafoglio[] = new double[4], gain[] = new double[4];
+		int mese[] = new int[4];
+
+		File fin = new File("utenti.txt");
+
+		Utente u = new Utente("!","!",0,0,0,0);
+
 		Scanner input = new Scanner(fin);
-			
+
 		String riga;
-		
-		int c=0;
-		
-		// finchè vi è una riga da leggere
+
+		int c = 0;
+
 		while (input.hasNextLine()) {
-			riga=input.nextLine();
-			
+			riga = input.nextLine();
+
 			Scanner t = new Scanner(riga);
-			  while (t.hasNext()) {
-				  nome[c] = t.next();
-				  password[c] = t.next();
-				  contoBancario[c] = t.nextDouble();
-				  portafoglio[c] = t.nextDouble();
-				  gain[c] = t.nextDouble();
-				  mese[c] = t.nextInt();
-				  
-				  }
-			  //System.out.println("Nome: "+nome[c]+"\t Password: "+password[c]+"\t Conto bancario: "+ contoBancario[c] +"\t Portafoglio: "+ portafoglio[c] +"\t Guadagno: " + gain[c] +"\t Mese: " + mese[c]);
-			  c++;
+			while (t.hasNext()) {
+				nome[c] = t.next();
+				password[c] = t.next();
+				contoBancario[c] = t.nextDouble();
+				portafoglio[c] = t.nextDouble();
+				gain[c] = t.nextDouble();
+				mese[c] = t.nextInt();
+				
+				
+				
+				// System.out.println("Nome: "+nome[c]+"\t Password: "+password[c]+"\t Conto
+				// bancario: "+ contoBancario[c] +"\t Portafoglio: "+ portafoglio[c] +"\t
+				// Guadagno: " + gain[c] +"\t Mese: " + mese[c]);*/
+			}
+			c++;
 		}
-		
-		
-		Utente u = new Utente("","",0, 0, 0, 0);
-		
+
+
 		String nickname, pass;
 		int pos = 0;
-		
+
 		do {
 			System.out.print("Inserire il nome utente --> ");
 			nickname = tastiera.nextLine().trim();
@@ -55,11 +60,10 @@ public class Main {
 			pass = tastiera.nextLine().trim();
 			System.out.println();
 			pos = u.controllaDati(pass, nickname, password, nome);
-			
-		}while(pos==-1);
-		
-		
-		u = new Utente(nome[pos],password[pos],contoBancario[pos], portafoglio[pos], gain[pos], mese[pos]);
+
+		} while (pos == -1);
+
+		u = new Utente(nome[pos], password[pos], contoBancario[pos], portafoglio[pos], gain[pos], mese[pos]);
 
 		Menu m = new Menu();
 
@@ -172,10 +176,8 @@ public class Main {
 						guadagno = Azioni.investimento(500, soldiDaInvestire);
 						break;
 					}
-					
 
 					}
-					
 
 					u.setGuadagno(guadagno);
 					u.setContoBancario(u.getContoBancario() + u.getGuadagno());
@@ -213,47 +215,47 @@ public class Main {
 				switch (m.getSceltaDeposito()) {
 
 				case 1: {
-					
+
 					System.out.println("Sono stati depositati 100 euro nel conto in Banca \n");
-					u.setContoBancario(u.getContoBancario()+(nMesi*100));
-                    System.out.println("Saldo del conto in Banca: " + u.getContoBancario());
-                    System.out.println("Saldo del portafoglio personale: " + u.getPortafoglio());
-					
+					u.setContoBancario(u.getContoBancario() + (nMesi * 100));
+					System.out.println("Saldo del conto in Banca: " + u.getContoBancario());
+					System.out.println("Saldo del portafoglio personale: " + u.getPortafoglio());
+
 					break;
 				}
-				
-				case 2:{
-					
+
+				case 2: {
+
 					System.out.println("Sono stati depositati 100 euro nel portafoglio personale \n");
-                    
-                    u.setPortafoglio(u.getPortafoglio() + (nMesi*100));
-					
+
+					u.setPortafoglio(u.getPortafoglio() + (nMesi * 100));
+
 					break;
 				}
-				
-				default:{
-				
+
+				default: {
+
 					System.out.println("Saldo del conto in Banca: " + u.getContoBancario());
 					System.out.println("Saldo del portafoglio personale: " + u.getPortafoglio());
 				}
-				System.out.println();
-				
+					System.out.println();
+
 				}
 
 				break;
 			}
 
 			case 5: {
-				
+
 				System.out.println("Stato del conto in banca: " + u.getContoBancario());
-                System.out.println();
-				
+				System.out.println();
+
 				break;
 			}
 
 			case 6: {
 				System.out.println("Stato del portafoglio: " + u.getPortafoglio());
-                System.out.println();
+				System.out.println();
 				break;
 			}
 
@@ -261,30 +263,29 @@ public class Main {
 
 		} while (m.getSceltaMain() != 7);
 		System.out.println("Grazie per aver usato questo programma!");
+
+		nome[pos] = u.getNome();
+		password[pos] = u.getPassword();
+		contoBancario[pos] = u.getContoBancario();
+		portafoglio[pos] = u.getPortafoglio();
+		gain[pos] = u.getGuadagno();
+		mese[pos] = u.getMese();
+
 		
-		nome[pos]=u.getNome();
-		password[pos]=u.getPassword();
-		contoBancario[pos]=u.getContoBancario();
-		portafoglio[pos]=u.getPortafoglio();
-		gain[pos]=u.getGuadagno();
-		mese[pos]=u.getMese();
-		
-		//File nuovo = new File("nuovo.txt");
-		PrintWriter pw = new PrintWriter(new File("utenti.txt"));
-		c=0;
-		while(c<nUtenti) {
+		PrintWriter pw = new PrintWriter(fin);
+		c = 0;
+		riga = "";
+		while (c < DIM) {
+
+			riga = nome[c] + " " + password[c] + " " + contoBancario[c] + " " + portafoglio[c] + " " + gain[c] + " " + mese[c];
 			
-			pw.println(nome[c] + " " + password[c] + " " + contoBancario[c] + " " + portafoglio[c] + " " + gain[c] + " " + mese[c]);
+			pw.println(Tools.virgolaPunto(riga));
+
 			c++;
 		}
+
 		
-		
-		
-		
-		
-		fin.delete();
-		
-		
+
 		input.close();
 		pw.close();
 
