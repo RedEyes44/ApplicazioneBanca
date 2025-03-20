@@ -1,71 +1,35 @@
+package mine;
+
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		int DIM = 4;
 		
+		Banca banca = new Banca(DIM,"storico.txt");
 		
 		Scanner tastiera = new Scanner(System.in);
 
-		String nome[] = new String[4], password[] = new String[4];
-		double contoBancario[] = new double[4], portafoglio[] = new double[4], gain[] = new double[4];
-		int mese[] = new int[4];
-
-		File fin = new File("utenti.txt");
-
 		Utente u = new Utente("!","!",0,0,0,0);
 
-		Scanner input = new Scanner(fin);
+		banca.assignment();
+		
+		int pos = banca.login();
 
-		String riga;
-
-		int c = 0;
-
-		while (input.hasNextLine()) {
-			riga = input.nextLine();
-
-			Scanner t = new Scanner(riga);
-			while (t.hasNext()) {
-				nome[c] = t.next();
-				password[c] = t.next();
-				contoBancario[c] = t.nextDouble();
-				portafoglio[c] = t.nextDouble();
-				gain[c] = t.nextDouble();
-				mese[c] = t.nextInt();
-				
-				
-				
-				// System.out.println("Nome: "+nome[c]+"\t Password: "+password[c]+"\t Conto
-				// bancario: "+ contoBancario[c] +"\t Portafoglio: "+ portafoglio[c] +"\t
-				// Guadagno: " + gain[c] +"\t Mese: " + mese[c]);*/
-			}
-			c++;
-		}
-
-
-		String nickname, pass;
-		int pos = 0;
-
-		do {
-			System.out.print("Inserire il nome utente --> ");
-			nickname = tastiera.nextLine().trim();
-			System.out.println();
-			System.out.println("Inserire la password -->");
-			pass = tastiera.nextLine().trim();
-			System.out.println();
-			pos = u.controllaDati(pass, nickname, password, nome);
-
-		} while (pos == -1);
-
-		u = new Utente(nome[pos], password[pos], contoBancario[pos], portafoglio[pos], gain[pos], mese[pos]);
+		u = new Utente(banca.getNome(pos),banca.getPassword(pos),banca.getContoBancario(pos),banca.getPortafoglio(pos),banca.getGain(pos),banca.getMese(pos));
 
 		Menu m = new Menu();
+		
+		
+		String message="";
 
 		do {
 			m.menuMain();
@@ -73,14 +37,25 @@ public class Main {
 			switch (m.getSceltaMain()) {
 
 			case 1: {
-
-				System.out.print("Inserisci quanto vuoi depositare nel conto Bancario: ");
-				double saldo = Azioni.deposita(u.getPortafoglio());
-
-				u.setPortafoglio(u.getPortafoglio() - saldo);
-
-				u.setContoBancario(u.getContoBancario() + saldo);
-
+				
+				if(u.getPortafoglio()>1) {
+					System.out.print("Inserisci quanto vuoi depositare nel conto Bancario: ");
+					double saldo = Azioni.deposita(u.getPortafoglio());
+	
+					u.setPortafoglio(u.getPortafoglio() - saldo);
+					
+					message = LocalDate.now() + " : sono stati rimossi " + saldo + " euro dal portafoglio" ;
+					banca.transazione(message);
+					
+					u.setContoBancario(u.getContoBancario() + saldo);
+					
+					message = LocalDate.now() + " : sono stati aggiunti " + saldo + " euro al conto";
+					banca.transazione(message);
+				}else {
+					
+					System.out.println("Non e' possibile depositare denaro");
+					
+				}
 				System.out.println("Portafoglio: " + u.getPortafoglio());
 				System.out.println("Conto in banca: " + u.getContoBancario());
 				System.out.println();
@@ -88,18 +63,27 @@ public class Main {
 			}
 
 			case 2: {
-
-				System.out.print("Inserisci quanto vuoi prelevare dal conto Bancario: ");
-				double saldo = Azioni.preleva(u.getContoBancario());
-
-				u.setPortafoglio(u.getPortafoglio() + saldo);
-
-				u.setContoBancario(u.getContoBancario() - saldo);
+				if(u.getContoBancario()>1) {
+					System.out.print("Inserisci quanto vuoi prelevare dal conto Bancario: ");
+					double saldo = Azioni.preleva(u.getContoBancario());
+	
+					u.setPortafoglio(u.getPortafoglio() + saldo);
+					
+					message = LocalDate.now() + " : sono stati aggiunti " + saldo + " euro al portafoglio";
+					banca.transazione(message);
+	
+					u.setContoBancario(u.getContoBancario() - saldo);
+					
+					message = LocalDate.now() + " : sono stati tolti " + saldo ;
+					banca.transazione(message);
+				}else {
+					System.out.println("Non e' possibile prelevare denaro");
+				}
 
 				System.out.println("Portafoglio: " + u.getPortafoglio());
 				System.out.println("Conto in banca: " + u.getContoBancario());
 				System.out.println();
-
+				break;
 			}
 
 			case 3: {
@@ -119,6 +103,9 @@ public class Main {
 					double soldiDaInvestire = Conversione.conversioneDouble(tastiera.nextLine());
 
 					u.setContoBancario(u.getContoBancario() - soldiDaInvestire);
+					
+					message = LocalDate.now() + " : sono stati tolti " + soldiDaInvestire + " euro dal conto";
+					banca.transazione(message);
 
 					m.menuPerDurata();
 
@@ -129,6 +116,9 @@ public class Main {
 						u.setMese(u.getMese() + 1);
 
 						u.setContoBancario(u.getContoBancario() + 100);
+						
+						message = LocalDate.now() + " : sono stati aggiunti " + 100 + " euro al conto";
+						banca.transazione(message);
 						break;
 					}
 
@@ -137,6 +127,9 @@ public class Main {
 						u.setMese(u.getMese() + 3);
 
 						u.setContoBancario(u.getContoBancario() + (100 * 3));
+						
+						message = LocalDate.now() + " : sono stati aggiunti " + (100*3) + " euro al conto";
+						banca.transazione(message);
 
 						break;
 
@@ -146,6 +139,9 @@ public class Main {
 
 						u.setMese(u.getMese() + 6);
 						u.setContoBancario(u.getContoBancario() + (100 * 6));
+						
+						message = LocalDate.now() + " : sono stati aggiunti " + (100*6) + " euro al conto";
+						banca.transazione(message);
 
 						break;
 					}
@@ -181,14 +177,23 @@ public class Main {
 
 					u.setGuadagno(guadagno);
 					u.setContoBancario(u.getContoBancario() + u.getGuadagno());
+					
 
 					System.out.println();
 					if (u.getGuadagno() <= soldiDaInvestire) {
 						System.out.println("Mi dispiace. L'investimento non e' andato a buon fine!!!");
 						System.out.println("Hai perso " + u.getGuadagno() + " euro");
+						
+						message = LocalDate.now() + " : sono stati tolti " + u.getGuadagno() + " euro dal conto";
+						banca.transazione(message);
+						
+	
 					} else {
 						System.out.println("CONGRATULAZIONI. L'investimento e' andato a buon fine!!!");
 						System.out.println("Hai guadagnato " + u.getGuadagno() + " euro!!!");
+						
+						message = LocalDate.now() + " : sono stati aggiunti " + u.getGuadagno() + " euro dal conto";
+						banca.transazione(message);
 					}
 
 					System.out.println("Il tuo conto in banca e' " + u.getContoBancario());
@@ -218,6 +223,10 @@ public class Main {
 
 					System.out.println("Sono stati depositati 100 euro nel conto in Banca \n");
 					u.setContoBancario(u.getContoBancario() + (nMesi * 100));
+					
+					message = LocalDate.now() + " : sono stati aggiunti " + (100*nMesi) + " euro al conto";
+					banca.transazione(message);
+					
 					System.out.println("Saldo del conto in Banca: " + u.getContoBancario());
 					System.out.println("Saldo del portafoglio personale: " + u.getPortafoglio());
 
@@ -229,6 +238,9 @@ public class Main {
 					System.out.println("Sono stati depositati 100 euro nel portafoglio personale \n");
 
 					u.setPortafoglio(u.getPortafoglio() + (nMesi * 100));
+					
+					message = LocalDate.now() + " : sono stati aggiunti " + (100*nMesi) + " euro al portafoglio";
+					banca.transazione(message);
 
 					break;
 				}
@@ -263,31 +275,12 @@ public class Main {
 
 		} while (m.getSceltaMain() != 7);
 		System.out.println("Grazie per aver usato questo programma!");
-
-		nome[pos] = u.getNome();
-		password[pos] = u.getPassword();
-		contoBancario[pos] = u.getContoBancario();
-		portafoglio[pos] = u.getPortafoglio();
-		gain[pos] = u.getGuadagno();
-		mese[pos] = u.getMese();
-
 		
-		PrintWriter pw = new PrintWriter(fin);
-		c = 0;
-		riga = "";
-		while (c < DIM) {
-
-			riga = nome[c] + " " + password[c] + " " + contoBancario[c] + " " + portafoglio[c] + " " + gain[c] + " " + mese[c];
-			
-			pw.println(Tools.virgolaPunto(riga));
-
-			c++;
-		}
-
 		
-
-		input.close();
-		pw.close();
+		banca.setDati(u.getNome(), u.getPassword(), u.getContoBancario(), u.getPortafoglio(), u.getGuadagno(), u.getMese(), pos);
+		
+		banca.salvaInfo();
+		
 
 	}
 
