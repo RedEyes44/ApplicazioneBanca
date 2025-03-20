@@ -56,6 +56,9 @@ public class Main {
 					System.out.println("Non e' possibile depositare denaro");
 					
 				}
+				
+				u.setContoBancario(Tools.arrotondaSecondaCifra(u.getContoBancario()));
+				u.setPortafoglio(Tools.arrotondaSecondaCifra(u.getPortafoglio()));
 				System.out.println("Portafoglio: " + u.getPortafoglio());
 				System.out.println("Conto in banca: " + u.getContoBancario());
 				System.out.println();
@@ -79,7 +82,11 @@ public class Main {
 				}else {
 					System.out.println("Non e' possibile prelevare denaro");
 				}
-
+				
+				
+				u.setContoBancario(Tools.arrotondaSecondaCifra(u.getContoBancario()));
+				u.setPortafoglio(Tools.arrotondaSecondaCifra(u.getPortafoglio()));
+				
 				System.out.println("Portafoglio: " + u.getPortafoglio());
 				System.out.println("Conto in banca: " + u.getContoBancario());
 				System.out.println();
@@ -182,6 +189,7 @@ public class Main {
 					System.out.println();
 					if (u.getGuadagno() <= soldiDaInvestire) {
 						System.out.println("Mi dispiace. L'investimento non e' andato a buon fine!!!");
+						u.setGuadagno(Tools.arrotondaSecondaCifra(u.getGuadagno()));
 						System.out.println("Hai perso " + u.getGuadagno() + " euro");
 						
 						message = LocalDate.now() + " : sono stati tolti " + u.getGuadagno() + " euro dal conto";
@@ -190,12 +198,15 @@ public class Main {
 	
 					} else {
 						System.out.println("CONGRATULAZIONI. L'investimento e' andato a buon fine!!!");
+						u.setGuadagno(Tools.arrotondaSecondaCifra(u.getGuadagno()));
 						System.out.println("Hai guadagnato " + u.getGuadagno() + " euro!!!");
 						
 						message = LocalDate.now() + " : sono stati aggiunti " + u.getGuadagno() + " euro dal conto";
 						banca.transazione(message);
 					}
-
+					
+					u.setContoBancario(Tools.arrotondaSecondaCifra(u.getContoBancario()));
+					
 					System.out.println("Il tuo conto in banca e' " + u.getContoBancario());
 
 				}
@@ -209,6 +220,10 @@ public class Main {
 				System.out.print("Di quanti mesi vuoi andare avanti: ");
 				int nMesi = Conversione.conversioneInt(tastiera.nextLine());
 				System.out.println("Sei andato avanti di " + nMesi + " mesi! \n");
+				
+				u.setContoBancario(Tools.arrotondaSecondaCifra(u.getContoBancario()));
+				u.setPortafoglio(Tools.arrotondaSecondaCifra(u.getPortafoglio()));
+				
 				System.out.println("Saldo del conto in Banca: " + u.getContoBancario());
 				System.out.println("Saldo del portafoglio personale: " + u.getPortafoglio());
 				System.out.println();
@@ -226,6 +241,9 @@ public class Main {
 					
 					message = LocalDate.now() + " : sono stati aggiunti " + (100*nMesi) + " euro al conto";
 					banca.transazione(message);
+					
+					u.setContoBancario(Tools.arrotondaSecondaCifra(u.getContoBancario()));
+					u.setPortafoglio(Tools.arrotondaSecondaCifra(u.getPortafoglio()));
 					
 					System.out.println("Saldo del conto in Banca: " + u.getContoBancario());
 					System.out.println("Saldo del portafoglio personale: " + u.getPortafoglio());
@@ -246,7 +264,10 @@ public class Main {
 				}
 
 				default: {
-
+					
+					u.setContoBancario(Tools.arrotondaSecondaCifra(u.getContoBancario()));
+					u.setPortafoglio(Tools.arrotondaSecondaCifra(u.getPortafoglio()));
+					
 					System.out.println("Saldo del conto in Banca: " + u.getContoBancario());
 					System.out.println("Saldo del portafoglio personale: " + u.getPortafoglio());
 				}
@@ -258,7 +279,7 @@ public class Main {
 			}
 
 			case 5: {
-
+				u.setContoBancario(Tools.arrotondaSecondaCifra(u.getContoBancario()));
 				System.out.println("Stato del conto in banca: " + u.getContoBancario());
 				System.out.println();
 
@@ -266,6 +287,8 @@ public class Main {
 			}
 
 			case 6: {
+				
+				u.setPortafoglio(Tools.arrotondaSecondaCifra(u.getPortafoglio()));
 				System.out.println("Stato del portafoglio: " + u.getPortafoglio());
 				System.out.println();
 				break;
