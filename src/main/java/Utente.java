@@ -1,4 +1,4 @@
-
+package mine;
 
 public class Utente {
 
@@ -20,7 +20,7 @@ public class Utente {
 	public String getNome() {
 		return this.nome;
 	}
-
+	
 	public String getPassword() {
 		return this.password;
 	}
@@ -41,14 +41,6 @@ public class Utente {
 		return this.mese;
 	}
 	
-	public void setNome(String n) {
-		this.nome=n;
-	}
-	
-	public void setPassword(String p) {
-		this.password=p;
-	}
-	
 	public void setContoBancario(double cB) {
 		this.contoBancario=cB;
 	}
@@ -65,23 +57,6 @@ public class Utente {
 		this.mese=m;
 	}
 	
-	public int controllaDati(String password, String nome, String [] arrayPassword, String [] arrayNomi) {
-		
-		for(int i=0;i<arrayNomi.length;i++) {
-			
-			if(arrayNomi[i].equalsIgnoreCase(nome)) {
-				if(arrayPassword[i].equalsIgnoreCase(password)) {
-					return i;
-				}else {
-					return -1;
-				}
-			}
-			
-		}
-		
-		return -1;
-		
-	}
 	
 	
 	
