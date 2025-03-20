@@ -1,4 +1,4 @@
-
+package mine;
 
 import java.util.Scanner;
 
