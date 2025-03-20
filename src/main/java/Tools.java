@@ -29,4 +29,10 @@ public class Tools {
 		return nuova;
 	}
 	
+	public static double arrotondaSecondaCifra(double d) {
+		d = Math.round(d * 100);
+		d = d / 100;
+		return d;
+	}
+	
 }
