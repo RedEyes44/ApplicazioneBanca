@@ -1,47 +1,71 @@
 package mine;
 
-import java.util.Scanner;
+public class Utente {
 
-public class Azioni {
-
-	public static double deposita(double portafoglio) {
-		Scanner tastiera = new Scanner(System.in);
-        double saldo = Conversione.conversioneDouble(tastiera.nextLine());
-
-        while (saldo > portafoglio) {
-            System.out.println("Saldo del portafoglio non sufficiente");
-            System.out.print("Inserisci quanto vuoi depositare nel conto Bancario: ");
-            saldo = Conversione.conversioneDouble(tastiera.nextLine());
-        }
-
-        return saldo;
-    }
+	private double contoBancario, portafoglio, guadagno;
+	private int mese;
+	private String nome, password;
 	
-	public static double preleva(double contoBancario) {
-		Scanner tastiera = new Scanner(System.in);
-        double saldo = Conversione.conversioneDouble(tastiera.nextLine());
-
-        while (saldo > contoBancario) {
-            System.out.println("Saldo del conto bancario non sufficiente");
-            System.out.print("Inserisci quanto vuoi prelevare dal conto Bancario: ");
-            saldo = Conversione.conversioneDouble(tastiera.nextLine());
-        }
-
-        return saldo;
-    }
+	public Utente(String n, String pass,double cB, double p, double g, int m) {
+		
+		this.nome=n;
+		this.password=pass;
+		this.contoBancario=cB;
+		this.portafoglio=p;
+		this.guadagno=g;
+		this.mese=m;
+		
+	}
 	
-	public static double investimento(int grandezzaRischio, double soldiDaInvestire) {
-        double guadagno;
-        int rischio = (int) (Math.random() * grandezzaRischio);
-        if (rischio <= 50) {
-            guadagno = (soldiDaInvestire * (grandezzaRischio / 20.0));
-        } else {
-            guadagno = (double) ((20.0 / grandezzaRischio) * soldiDaInvestire);
-        }
-        
-        
-        return guadagno;
-    }
+	public String getNome() {
+		return this.nome;
+	}
+	
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public double getContoBancario() {
+		return this.contoBancario;
+	}
+	
+	public double getPortafoglio() {
+		return this.portafoglio;
+	}
+	
+	public double getGuadagno() {
+		return this.guadagno;
+	}
+	
+	public int getMese() {
+		return this.mese;
+	}
+	
+	public void setContoBancario(double cB) {
+		this.contoBancario=cB;
+	}
+	
+	public void setPortafoglio(double p) {
+		this.portafoglio=p;
+	}
+	
+	public void setGuadagno(double g) {
+		this.guadagno=g;
+	}
+	
+	public void setMese(int m) {
+		this.mese=m;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
