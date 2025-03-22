@@ -1,4 +1,3 @@
-package mine;
 
 public class Utente {
 
