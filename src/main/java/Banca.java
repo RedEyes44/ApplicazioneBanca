@@ -1,4 +1,3 @@
-package mine;
 
 import java.io.File;
 import java.io.FileNotFoundException;
